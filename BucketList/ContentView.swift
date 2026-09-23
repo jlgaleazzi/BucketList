@@ -22,6 +22,7 @@ struct User: Identifiable, Comparable {
 struct ContentView: View {
     @State private var isUnlocked = false
     @State private var locations = [Location]([Location.example])
+    @State private var selectedPlace: Location?
     
     
     
@@ -72,8 +73,14 @@ struct ContentView: View {
                                     .frame(width:44, height: 44)
                                     .background(.white)
                                     .clipShape(.circle)
+                                    .onLongPressGesture {
+                                        selectedPlace = location
+                                    }
                             }
                         }
+                    }
+                    .sheet(item: $selectedPlace) {
+                        place in Text(place.name)
                     }
                             .onTapGesture {
                             position in
@@ -82,6 +89,9 @@ struct ContentView: View {
                                 locations.append(newLocation)
                             }
                         }
+                           
+                            
+        
                 }
             }
             
